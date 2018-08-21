@@ -22,5 +22,26 @@
         <service id="listing.repository.in-memory" class="App\Application\Listing\InMemoryRepository" />
         <service id="ticket.repository.in-memory" class="App\Application\Ticket\InMemoryRepository" />
 
+        <!--Serializer-->
+        <service id="jms_serializer.metadata.cache.file_cache" class="Metadata\Cache\FileCache" public="false">
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="jms_serializer.cache.cache_warmer"
+                 class="JMS\SerializerBundle\Cache\CacheWarmer"
+                 public="false">
+            <argument type="collection">
+                <argument key="cache_dir">%kernel.cache_dir%</argument>
+            </argument>
+            <argument type="service" id="jms_serializer.metadata_factory"/>
+            <tag name="kernel.cache_warmer" />
+        </service>
+
+        <service id="mhujer.jms_serializer.uuid.uuid_serializer_handler"
+                 class="Mhujer\JmsSerializer\Uuid\UuidSerializerHandler"
+                 public="false">
+            <tag name="jms_serializer.subscribing_handler" />
+        </service>
+
     </services>
 </container>
