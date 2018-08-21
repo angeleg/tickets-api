@@ -14,4 +14,13 @@
         <parameter key="container.build_id">1</parameter>
     </parameters>
 
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+        <prototype namespace="App\" resource="../src/*" exclude="../src/{Entity,Migrations,Tests}" />
+
+        <!--Repositories-->
+        <service id="listing.repository.in-memory" class="App\Application\Listing\InMemoryRepository" />
+        <service id="ticket.repository.in-memory" class="App\Application\Ticket\InMemoryRepository" />
+
+    </services>
 </container>
