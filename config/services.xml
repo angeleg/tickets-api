@@ -18,6 +18,17 @@
         <defaults autowire="false" autoconfigure="false" public="true" />
         <prototype namespace="App\" resource="../src/*" exclude="../src/{Entity,Migrations,Tests}" />
 
+        <!--Controllers-->
+        <service id="App\Infrastructure\Controller\ListingController">
+            <argument type="service" id="tactician.commandbus.default" />
+            <argument type="service" id="jms_serializer" />
+        </service>
+
+        <service id="App\Infrastructure\Controller\TicketController">
+            <argument type="service" id="tactician.commandbus.default" />
+            <argument type="service" id="jms_serializer" />
+        </service>
+
         <!--Handlers-->
         <service id="listing.create.handler" class="App\Domain\Listing\CreateListingHandler">
             <argument type="service" id="listing.repository.in-memory" />
@@ -30,6 +41,13 @@
             <argument type="service" id="listing.repository.in-memory" />
             <argument type="service" id="listing.repository.in-memory" />
             <tag name="tactician.handler" command="App\Domain\Listing\VerifyListingCommand" />
+        </service>
+
+        <service id="ticket.buy.handler" class="App\Domain\Ticket\BuyTicketHandler">
+            <argument type="service" id="listing.repository.in-memory" />
+            <argument type="service" id="ticket.repository.in-memory" />
+            <argument type="service" id="ticket.repository.in-memory" />
+            <tag name="tactician.handler" command="App\Domain\Ticket\BuyTicketCommand" />
         </service>
 
         <!--Repositories-->
